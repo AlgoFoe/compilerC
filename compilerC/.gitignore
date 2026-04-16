@@ -2,3 +2,4 @@ output.o
 program
 cumpileher
 *.asm
+.vscode/
