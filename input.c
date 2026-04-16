@@ -32,3 +32,16 @@ while (counter < limit) {
 
 int big = (a + b) * (a - b);
 print(big);
+
+int length = 100;
+int width = 50;
+int area = length * width;
+
+print(lenght);
+
+area = width + 5;
+print(area);
+
+int height = 25;
+int volume = area * heigh;
+print(volume);

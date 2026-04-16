@@ -87,7 +87,11 @@ static void parse_factor(char *out_var) {
         advance();
     } else if (cur.type == TOKEN_ID) {
         if (!exists(cur.value)) {
+            const char *suggestion = find_closest_match(cur.value);
             fprintf(stderr, "Error: variable '%s' used before declaration\n", cur.value);
+            if (suggestion) {
+                fprintf(stderr, "  did you mean: '%s'?\n", suggestion);
+            }
         }
         strcpy(out_var, cur.value);
         advance();
@@ -219,7 +223,7 @@ static void parse_declaration(void) {
 }
 
 /*
- * assignment → ID '=' expr ';'
+ * assignment--> ID '=' expr ';'
  */
 static void parse_assignment(void) {
     char name[64];
@@ -227,7 +231,11 @@ static void parse_assignment(void) {
     eat(TOKEN_ID);
 
     if (!exists(name)) {
+        const char *suggestion = find_closest_match(name);
         fprintf(stderr, "Error: '%s' not declared\n", name);
+        if (suggestion) {
+            fprintf(stderr, "  did you mean: '%s'?\n", suggestion);
+        }
     }
 
     eat(TOKEN_ASSIGN);
@@ -323,7 +331,11 @@ static void parse_print(void) {
     eat(TOKEN_LPAREN);
 
     if (!exists(cur.value)) {
+        const char *suggestion = find_closest_match(cur.value);
         fprintf(stderr, "Error: '%s' not declared\n", cur.value);
+        if (suggestion) {
+            fprintf(stderr, "  did you mean: '%s'?\n", suggestion);
+        }
     }
     char name[64];
     strcpy(name, cur.value);
